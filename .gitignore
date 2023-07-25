@@ -38,4 +38,4 @@ out/
 
 *.class
 
-/target/
+customer/target
