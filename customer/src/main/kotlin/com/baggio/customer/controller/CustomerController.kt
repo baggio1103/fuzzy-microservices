@@ -21,7 +21,7 @@ class CustomerController(
     @PostMapping
     fun registerCustomer(customerRequest: CustomerRequest) {
         log.info("Customer registration request {}", customerRequest)
-        customerRequest.registerCustomer(customerRequest)
+        customerService.registerCustomer(customerRequest)
     }
 
 }
