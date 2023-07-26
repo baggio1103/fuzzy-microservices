@@ -1,7 +1,7 @@
 package com.baggio.customer.repository
 
 import com.baggio.customer.model.CustomerEntity
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
 
-interface CustomerRepository: CrudRepository<CustomerEntity, Long> {
+interface CustomerRepository: JpaRepository<CustomerEntity, Long> {
 }

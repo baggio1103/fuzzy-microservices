@@ -39,3 +39,5 @@ out/
 *.class
 
 customer/target
+
+fraud/target
