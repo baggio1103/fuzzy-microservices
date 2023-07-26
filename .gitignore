@@ -41,3 +41,5 @@ out/
 customer/target
 
 fraud/target
+
+eureka-server/target
