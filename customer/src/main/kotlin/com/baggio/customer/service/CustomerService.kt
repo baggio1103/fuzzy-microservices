@@ -6,8 +6,6 @@ import com.baggio.customer.model.CustomerEntity
 import com.baggio.customer.repository.CustomerRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.getForObject
-import java.lang.IllegalArgumentException
 
 @Service
 class CustomerService(
@@ -24,7 +22,7 @@ class CustomerService(
             )
         )
         val fraudCheckResponse = restTemplate.getForObject(
-            "http://localhost:8081/api/v1/fraud-check/{customerId}",
+            "http://FRAUD/api/v1/fraud-check/{customerId}",
             FraudCheckResponse::class.java,
             customer.id
             ) ?: throw IllegalStateException("")
