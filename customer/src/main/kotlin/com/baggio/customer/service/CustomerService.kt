@@ -1,6 +1,8 @@
 package com.baggio.customer.service
 
 import com.baggio.clients.fraud.FraudService
+import com.baggio.clients.notification.NotificationRequest
+import com.baggio.clients.notification.NotificationService
 import com.baggio.customer.dto.CustomerRequest
 import com.baggio.customer.model.CustomerEntity
 import com.baggio.customer.repository.CustomerRepository
@@ -9,7 +11,8 @@ import org.springframework.stereotype.Service
 @Service
 class CustomerService(
     private val customerRepository: CustomerRepository,
-    private val fraudService: FraudService
+    private val fraudService: FraudService,
+    private val notificationService: NotificationService
 ) {
 
     fun registerCustomer(customerRequest: CustomerRequest) {
@@ -22,9 +25,15 @@ class CustomerService(
         )
         val customerId = customer.id ?: throw IllegalArgumentException()
         val fraudCheckResponse = fraudService.isFraudulentCustomer(customerId) ?: throw IllegalArgumentException()
-        println(fraudCheckResponse)
-        // todo save into db
-
+        if (fraudCheckResponse.isFraudster) {
+            throw IllegalStateException("Customer is fraudster")
+        }
+        // ToDo make it async, add it to message queue
+        notificationService.sendNotification(NotificationRequest(
+            customerId,
+            customerRequest.email,
+            "Welcome to Java Jedi"
+        ))
     }
 
 }
