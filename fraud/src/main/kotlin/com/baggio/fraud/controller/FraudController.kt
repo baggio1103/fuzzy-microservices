@@ -1,6 +1,6 @@
 package com.baggio.fraud.controller
 
-import com.baggio.fraud.dto.FraudCheckResponse
+import com.baggio.clients.fraud.FraudCheckResponse
 import com.baggio.fraud.service.FraudCheckService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

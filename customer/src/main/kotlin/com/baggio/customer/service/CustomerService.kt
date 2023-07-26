@@ -1,16 +1,15 @@
 package com.baggio.customer.service
 
+import com.baggio.clients.fraud.FraudService
 import com.baggio.customer.dto.CustomerRequest
-import com.baggio.customer.dto.FraudCheckResponse
 import com.baggio.customer.model.CustomerEntity
 import com.baggio.customer.repository.CustomerRepository
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
 
 @Service
 class CustomerService(
     private val customerRepository: CustomerRepository,
-    private val restTemplate: RestTemplate
+    private val fraudService: FraudService
 ) {
 
     fun registerCustomer(customerRequest: CustomerRequest) {
@@ -21,14 +20,9 @@ class CustomerService(
                 email = customerRequest.email,
             )
         )
-        val fraudCheckResponse = restTemplate.getForObject(
-            "http://FRAUD/api/v1/fraud-check/{customerId}",
-            FraudCheckResponse::class.java,
-            customer.id
-            ) ?: throw IllegalStateException("")
-        if (fraudCheckResponse.isFraudster) {
-            throw IllegalArgumentException("Customer with id: ${customer.id} is fraudster")
-        }
+        val customerId = customer.id ?: throw IllegalArgumentException()
+        val fraudCheckResponse = fraudService.isFraudulentCustomer(customerId) ?: throw IllegalArgumentException()
+        println(fraudCheckResponse)
         // todo save into db
 
     }
