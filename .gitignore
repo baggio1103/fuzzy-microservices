@@ -49,3 +49,5 @@ clients/target
 notification/target
 
 api-gateway/target
+
+.DS_Store
