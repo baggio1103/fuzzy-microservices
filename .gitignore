@@ -50,4 +50,6 @@ notification/target
 
 api-gateway/target
 
+amqp/target
+
 .DS_Store

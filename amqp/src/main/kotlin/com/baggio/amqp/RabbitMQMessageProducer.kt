@@ -14,7 +14,7 @@ class RabbitMQMessageProducer(
         private val log: Logger = LoggerFactory.getLogger(RabbitMQMessageProducer::class.java)
     }
 
-    fun produce(payload: Any, exchange: String, routingKey: String) {
+    fun publish(payload: Any, exchange: String, routingKey: String) {
         log.info("Publishing to $exchange using routingKey: $routingKey. Payload: $payload")
         ampqTemplate.convertAndSend(exchange, routingKey, payload)
         log.info("Published to $exchange using routingKey: $routingKey. Payload: $payload")
