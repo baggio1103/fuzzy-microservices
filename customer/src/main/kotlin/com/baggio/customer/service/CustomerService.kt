@@ -32,7 +32,7 @@ class CustomerService(
             NotificationRequest(
                 customerId,
                 customerRequest.email,
-                "Welcome to Java Jedi"
+                "Hello, ${customerRequest.firstName} Welcome to Java Jedi"
             ),
             "internal.exchange",
             "internal.notification.routing-key"
