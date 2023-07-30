@@ -1,7 +1,11 @@
 package com.baggio.clients.notification
 
 data class NotificationRequest(
-    val customerId: Long,
-    val customerEmail: String,
-    val message: String
-)
+    var customerId: Long,
+    var customerEmail: String,
+    var message: String
+) {
+
+    constructor(): this(0, "",  "")
+
+}
