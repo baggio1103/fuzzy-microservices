@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: customer
       POSTGRES_USER: baggio
       POSTGRES_PASSWORD: password
+    networks:
+      - customer
     ports:
       - "5432:5432"
 
@@ -19,6 +21,8 @@ services:
       POSTGRES_DB: fraud
       POSTGRES_USER: baggio
       POSTGRES_PASSWORD: password
+    networks:
+      - fraud
     ports:
       - "6432:5432"
 
@@ -31,6 +35,8 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "7432:5432"
+    networks:
+      - notification
 
   rabbitmq:
     image: rabbitmq:3.9.11-management-alpine
@@ -38,3 +44,79 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  eureka-server:
+    image: baggio1103/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - spring
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  api-gateway:
+    image: baggio1103/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8083:8083"
+    networks:
+      - spring
+    depends_on:
+      - eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  customer:
+    image: baggio1103/customer:latest
+    container_name: customer
+    ports:
+      - "8080:8080"
+    networks:
+      - spring
+      - customer
+    depends_on:
+      - eureka-server
+      - customer-db
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  fraud:
+    image: baggio1103/fraud:latest
+    container_name: fraud
+    ports:
+      - "8081:8081"
+    networks:
+      - spring
+      - fraud
+    depends_on:
+      - eureka-server
+      - fraud-db
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  notification:
+    image: baggio1103/notification:latest
+    container_name: notification
+    ports:
+      - "8082:8082"
+    networks:
+      - spring
+      - notification
+    depends_on:
+      - eureka-server
+      - notification-db
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+networks:
+  spring:
+    driver: bridge
+  notification:
+    driver: bridge
+  fraud:
+    driver: bridge
+  customer:
+    driver: bridge
