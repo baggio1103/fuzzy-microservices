@@ -29,6 +29,8 @@
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <spring.webflux.version>6.0.6</spring.webflux.version>
         <maven.compiler.version>3.11.0</maven.compiler.version>
+        <jib.maven.version>3.3.2</jib.maven.version>
+        <image>baggio1103/${project.artifactId}:${project.version}</image>
     </properties>
 
     <dependencyManagement>
@@ -83,12 +85,46 @@
             <version>${spring.webflux.version}</version>
         </dependency>
 
-
     </dependencies>
 
     <build>
         <pluginManagement>
             <plugins>
+
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>${jib.maven.version}</version>
+                    <configuration>
+                        <from>
+                            <image>eclipse-temurin:19-jdk-jammy@sha256:263d86d2b3ee21b8c6e66fa9739e72d22965389b8429e68d742593c7bdedb4cb</image>
+                            <platforms>
+<!--                                <platform>-->
+<!--                                    <architecture>amd64</architecture>-->
+<!--                                    <os>linux</os>-->
+<!--                                </platform>-->
+                                <platform>
+                                    <architecture>arm64</architecture>
+                                    <os>linux</os>
+                                </platform>
+                            </platforms>
+                        </from>
+                        <to>
+                            <tags>
+                                <tag>latest</tag>
+                            </tags>
+                        </to>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
