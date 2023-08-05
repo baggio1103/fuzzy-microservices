@@ -16,7 +16,9 @@ class RabbitMQConfig {
 
     @Bean
     fun connectionFactory(): ConnectionFactory {
-        return CachingConnectionFactory()
+        return CachingConnectionFactory().also {
+            it.setHost("rabbitmq")
+        }
     }
 
     @Bean
