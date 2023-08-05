@@ -16,4 +16,10 @@ spring:
         format_sql: true
     show_sql: true
   rabbitmq:
-    addresses: rabbitmq:5672
+    addresses: ${RABBIT_MQ_HOST}:5672
+
+service:
+  fraud:
+    url: ${FRAUD_URL:http://fraud}
+  notification:
+    url: ${NOTIFICATION_URL:http://notification}

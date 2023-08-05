@@ -25,3 +25,9 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     enabled: false
+
+service:
+  fraud:
+    url: ${FRAUD_URL:http://fraud}
+  notification:
+    url: ${NOTIFICATION_URL:http://notification}

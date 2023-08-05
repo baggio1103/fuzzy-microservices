@@ -24,3 +24,9 @@ eureka:
       defaultZone: http://eureka-server:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+service:
+  fraud:
+    url: ${FRAUD_URL:http://fraud}
+  notification:
+    url: ${NOTIFICATION_URL:http://notification}
