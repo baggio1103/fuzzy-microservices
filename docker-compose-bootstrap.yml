@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+
+  customer-db:
+    container_name: customer-db
+    image: postgres:13.2-alpine
+    environment:
+      POSTGRES_DB: customer
+      POSTGRES_USER: baggio
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+  fraud-db:
+    container_name: fraud-db
+    image: postgres:13.2-alpine
+    environment:
+      POSTGRES_DB: fraud
+      POSTGRES_USER: baggio
+      POSTGRES_PASSWORD: password
+    ports:
+      - "6432:5432"
+
+  notification-db:
+    container_name: notification-db
+    image: postgres:13.2-alpine
+    environment:
+      POSTGRES_DB: notification
+      POSTGRES_USER: baggio
+      POSTGRES_PASSWORD: password
+    ports:
+      - "7432:5432"
+
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
