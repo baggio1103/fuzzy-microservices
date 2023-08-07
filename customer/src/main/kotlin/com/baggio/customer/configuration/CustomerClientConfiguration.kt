@@ -3,6 +3,7 @@ package com.baggio.customer.configuration
 import com.baggio.clients.fraud.FraudService
 import com.baggio.clients.notification.NotificationService
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cloud.client.loadbalancer.LoadBalanced
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
@@ -14,6 +15,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory
 class CustomerClientConfiguration {
 
     @Bean
+    @LoadBalanced
     fun webClient(): Builder {
         return WebClient.builder()
     }
